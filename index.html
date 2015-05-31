@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Slider</title>
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+  <script src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js" type="text/javascript"></script>
+  <link href="slider/jquery.nouislider.pips.min.css" rel="stylesheet">
+  <link href="slider/jquery.nouislider.css" rel="stylesheet">
+  <script src="slider/jquery.nouislider.all.min.js"></script>
+  <script src="slider/slider.js"></script>
+  <!--<script src="slider/jquery.liblink.js"></script>-->
+  <script src="slider/colpick.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="slider/colpick.css" type="text/css"/>
+  <link rel="stylesheet" href="Office.css">
+  <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+
+
+
+  <style>
+
+	  html, body {
+		  height: 100%;
+	  }
+	  body {
+		  padding: 10px;
+		  overflow: hidden;
+	  }
+	  h3 {
+	  	clear:both;
+	  	outline:none;
+	  	color:blue;
+	  	cursor:pointer;
+	  	color: #336699;
+	  }
+	  h3:focus, h3:hover, h3:active {
+	          text-decoration: underline;
+    	}
+
+	  #wrapper {
+		  margin-top:30px;
+		  margin-left:30px;
+		  margin-right:30px;
+	  }
+	  #settings {
+		  display: none;
+		  overflow: auto;
+		  height:95%;
+		  width:100%;
+	  }
+	  #title {
+		height: 30px;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+		clear:both; color: darkgrey; margin-bottom:5px; border:none; outline:none;
+	  }
+	  table {
+		table-layout:fixed;
+		float:left;
+		margin-right:10px;
+		margin-top:5px;
+  		background-color:whitesmoke;
+  		width:200px;
+  		padding:5px;
+  	  }
+
+  	#SettingsFormats
+  	{
+  		width:220px;
+  	}
+  	#SettingsOptions
+  	{
+  		width:150px;
+  	}
+	.textbox {
+		width:84px;
+	}
+	.conditionalValue {
+		width:40px;
+	}
+
+	.color-box {
+		width:20px;
+		height:20px;
+	}
+
+	tr.FormatStyleScaleRow:first-child
+	{
+		border-bottom: 1px solid grey;
+
+	}
+	tr.FormatStyleScaleRow td
+	{
+		width:100px;
+	}
+
+
+	.spacer20 {
+  		height:20px;
+  		clear:both;
+  	}
+  	.spacer30 {
+  		height:30px;
+  	}
+
+  	.FormatStyleScaleRow {
+  		display:none;
+  	}
+
+  	#links {
+  		margin-left:10px;
+  	}
+
+	#divFormatStyleScale {
+		background-color: silver;
+	}
+  	.tooltip {
+  	    position: absolute;
+  	    z-index: 1020;
+  	    display: block;
+  	    padding: 5px;
+  	    font-size: 11px;
+  	    visibility: visible;
+  	    margin-top: -2px;
+  	    bottom:120%;
+  	}
+  	.tooltip .tooltip-arrow {
+  	    bottom: 0;
+  	    left: 50%;
+  	    margin-left: -5px;
+  	    border-top: 5px solid #F2F2F2;
+  	    border-right: 5px solid transparent;
+  	    border-left: 5px solid transparent;
+  	    position: absolute;
+  	    width: 0;
+  	    height: 0;
+  	}
+  	.tooltip-inner {
+  	    max-width: 200px;
+  	    padding: 3px 8px;
+  	    color: #0D0D0D;
+  	    text-align: center;
+  	    text-decoration: none;
+  	    background-color: #F2F2F2;
+  	    -webkit-border-radius: 4px;
+  	    -moz-border-radius: 4px;
+  	    border-radius: 4px;
+  	}
+  	.ui-slider {
+  	    background: black repeat-x bottom left;
+  	    border-bottom: 1px solid #EBEAE5;
+  	    height: 15px;
+  	    margin: 0;
+  	    padding: 0px;
+        overflow:hidden;
+  	}
+  	.ui-slider-handle {
+  	    background: #ED6B51;
+  	    border-bottom: 1px solid #a8a79f;
+  	    border-right: 1px solid #a8a79f;
+  	    height: 20px;
+  	    width: 10px;
+  	    margin: 0;
+  	    padding: 0px;
+  	    display: inline-block;
+  	}
+  	.ui-slider-range {
+  	    height: 10px;
+  	    border-bottom: 3px solid red;
+  	    position: relative;
+  	}
+  	.ui-slider-handle {
+  	    background: #ED6B51 !important;
+  	    border-bottom: 1px solid #a8a79f !important;
+  	    border-right: 1px solid #a8a79f !important;
+  	    height: 20px !important;
+  	    width: 10px !important;
+  	    margin: 0 !important;
+  	    padding: 0px !important;
+  	    display: inline-block !important;
+  	    top: -4px !important;
+  }
+  	.label {
+  		color: #A0A0A0;
+  		cursor:pointer;
+  	}
+       #settings-button {
+              background-image: url("Images/Settings.png");
+              background-repeat: no-repeat;
+              width: 40px;
+              height: 40px;
+              position: absolute;
+              left: 0;
+              cursor: pointer;
+          }
+
+	/* io7 theme */
+	.theme-ios-handle-horizontal {
+	  	border-radius: 100%;
+	 	width:28px !important;
+	 	height:28px !important;
+	 	top:-14px !important;
+	 	left:-14px !important;
+	 	box-shadow:none;
+	 }
+	 .theme-ios-handle-vertical {
+	 	  	border-radius: 100%;
+	 	 	width:28px !important;
+	 	 	height:28px !important;
+	 	 	top:-14px !important;
+	 	 	left:-12px !important;
+	 	 	box-shadow:none;
+	 }
+	 .theme-ios-handle-vertical::before, .theme-ios-handle-vertical::after, .theme-ios-handle-horizontal::before, .theme-ios-handle-horizontal::after {
+	 	content: none;
+	 }
+
+	.theme-ios-bar-horizontal {
+		height: 6px;
+		width:100%;
+		box-shadow:none;
+	}
+
+	.theme-ios-bar-vertical {
+		width: 6px !important;
+		height:100%;
+		box-shadow:none;
+	}
+
+	/*windows */
+	.theme-windows-handle-vertical, .theme-windows-handle-horizontal
+	{
+		border-radius:0px !important;
+		border:none;
+		background:black;
+		top:0px !important;
+		height:20px !important;
+		box-shadow:none;
+		width:20px !important;
+		left:-10px !important;
+	}
+	.theme-windows-handle-vertical{
+		left:0px !important;
+	}
+
+	.theme-windows-handle-horizontal::before, .theme-windows-handle-horizontal::after,
+	.theme-windows-handle-vertical::before, .theme-windows-handle-vertical::after
+	{
+		content:none;
+	}
+
+	.theme-windows-bar-horizontal
+	{
+		height:20px;
+		width:100%;
+		border-radius:0%;
+		border: none !important;
+		box-shadow:none !important;
+
+	}
+
+	.theme-windows-bar-vertical
+	{
+		width:20px;
+		height:100%;
+		border-radius:0%;
+		border: none !important;
+		box-shadow:none !important;
+
+	}
+	.theme-windows {
+		border-radius:0px !important;
+		background-color:rgb(198, 198, 198);
+		box-shadow:none !important;
+	}
+	</style>
+  </head>
+
+
+<body onmouseover="bodyOnMouseOver();" onmouseout="bodyOnMouseOut();">
+
+<div id="settings-button" onclick="ShowSettings(); ToggleSettings();" class="icon-cog" style="position:absolute; right:30px; cursor:pointer; display:block; height:30px"></div>
+<h2 id="title" style=""></h2>
+<div id="wrapper" style="">
+	<div id="slider" style=""></div>
+</div>
+<div id="settings" style="">
+    <h2>Settings</h2>
+
+	<div id="accordion">
+	<h3>1. Set up data</h3>
+  	<div>
+	<table id="SettingsData">
+			<tr><td class="label">Data: </td><td><button id="update" onclick="Bind();">Choose Cell</button></td></tr>
+			<tr><td><span class="label">Title: </span></td><td><input type="text" class="textbox" id="titleToShow" value="" /></td></tr>
+			<tr><td><span class="label">Min: </span></td><td><input type="text" class="textbox" id="min" value="0" onchange="SetConditionalLabels();" /></td></tr>
+			<tr><td><span class="label">Max: </span></td><td><input type="text" class="textbox" id="max"  value="100" onchange="SetConditionalLabels();" /></td></tr>
+			<tr><td><span class="label">Step: </span></td><td><input type="text" class="textbox" id="step" value=".1" /></td></tr>
+	</table>
+	</div>
+
+	<h3>2. Set look & feel </h3>
+	<div>
+	<table id="SettingsFormats">
+			<tr><td class="label">Slider Look:</td><td><select id="theme">
+			<option value="default">Default</option>
+  			<option value="windows">Windows</option>
+  			<option value="iOS7">iOS7</option>
+
+  		</select></td></tr>
+			<tr><td class="label">Bar Color:</td><td><select id="formatStyle" onchange="UpdateColorSelect();">
+			<option value="default">1 Color</option>
+  			<option value="conditional">3 Color Scale</option>
+  		</select></td></tr>
+  		<tr>
+  		<td colspan="2">
+
+  		<table>
+  		<tr class="FormatStyleFixedRow">
+  			<td class="label">Bar color:</td>
+  			<td><div id="colorBox" class="color-box" style="background-color:rgb(234, 37, 119);" onclick="ShowColorPicker(this);" ></div></td>
+  		</tr>
+		<tr class="FormatStyleScaleRow"><td class="label">Up to</td><td class="label">Color</td></tr>
+		<tr class="FormatStyleScaleRow">
+			<td>
+				<input type="text" id="valueRed" class="conditionalValue" />
+			</td>
+			<td>
+				<div id="colorBoxRed" class="color-box" style="background-color:red;" onclick="ShowColorPicker(this, 0);">
+			</td>
+		</tr>
+		<tr class="FormatStyleScaleRow">
+			<td><input type="text" id="valueYellow" class="conditionalValue" /></td>
+			<td><div id="colorBoxYellow" class="color-box" style="background-color:yellow;" onclick="ShowColorPicker(this, 1);"></div></td>
+		</tr>
+		<tr class="FormatStyleScaleRow">
+			<td><div type="text" id="valueGreen" class="conditionalValue"></div></td>
+			<td><div id="colorBoxGreen" class="color-box" style="background-color:green;" onclick="ShowColorPicker(this, 2);"></div></td>
+		</tr>
+		</table>
+		</td>
+		</tr>
+	</table>
+	</div>
+	<h3>3.More options...</h3>
+	<div>
+	<table id="SettingsOptions">
+		<tr><td class="label"><input type="checkbox" id="tip" checked="checked">Show current value</td></tr>
+		<tr><td class="label"><input type="checkbox" id="tick">Show tick marks</td></tr>
+		<tr><td class="label"><input type="checkbox" id="readonly" value="Read only">Read only</td></tr>
+		<tr><td class="label">Orientation:
+		<select id="orientation">
+					<option value="horizontal">Fixed Horizontal</option>
+		  			<option value="vertical">Fixed Vertical</option>
+  		</select>
+	</table>
+	</div>
+	<h3>Feedback</h3>
+	<div>
+		<div id="links">
+		    	<a id="review" href="">Rate & Review</a> |
+		    	<a id="review" href="mailto:keyur32@hotmail.com&subject=Slider Feedback">Send Feedback</a> |
+		    	<a id="review" href="">Help</a>
+		</div>
+	</div>
+	</div>
+	<div class="spacer20"></div>
+
+    <button id="update" onclick="UpdateSettings();">Save</button>
+	<button id="update" onclick="ToggleSettings();">Cancel</button>
+    <div class="spacer30"></div>
+	</div>
+</div>
+<div id="log"></div>
+
+</body>
+</html>
